@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx nodemon server/server.js -w server"
+    "dev": "npx nodemon app.js -w app.js"
   },
   "keywords": [],
   "author": "",

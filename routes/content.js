@@ -12,7 +12,7 @@ Contentrouter.get("/", async (req, res, next) => {
   }
 });
 
-Contentrouter.get("/:resource", async (res, req, next) => {
+Contentrouter.get("/:resource", async (req, res, next) => {
   try {
     let contents = await db.GetContentByName(req.params.resource);
     res.json(contents);

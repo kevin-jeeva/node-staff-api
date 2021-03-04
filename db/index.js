@@ -43,13 +43,15 @@ staffDB.GetContent = () => {
   });
 };
 
-staffDB.GetContentByName = (name) => {
+staffDB.GetContentByName = (resource) => {
   return new Promise((resolve, reject) => {
     pool.query(
       `select * from content where resource_id = (select resource_id from resources where resource_name = ?);`,
-      name,
+      resource,
       (error, result) => {
-        if (error) return reject(error);
+        if (error) {
+          return reject(error);
+        }
         return resolve(result);
       }
     );
