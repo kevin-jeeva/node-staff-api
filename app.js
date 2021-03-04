@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
 
-app.get("localhost/testCon.js", (req, res) => {
-  res.send(req);
+app.get("/", (req, res) => {
+  res.send("Welecome to the home page baby");
 });
 
-app.listen(3000, () => {
+const port = process.env.port || 3000;
+app.listen(port, () => {
   console.log("Wazzap");
 });
