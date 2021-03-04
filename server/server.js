@@ -7,4 +7,5 @@ app.use("/user", routes);
 app.use("/content", contentRoutes);
 
 app.use(express.json());
-app.listen(3002, () => console.log("server Started"));
+const port = process.env.port || 3000;
+app.listen(port, () => console.log("server Started"));
