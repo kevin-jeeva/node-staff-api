@@ -24,7 +24,8 @@ staffDB.all = () => {
 staffDB.one = (id) => {
   return new Promise((resolve, reject) => {
     pool.query(`SELECT * FROM user where staff_id = ? `, id, (err, results) => {
-      if (err) {
+      console.log(results);
+      if (err || !results.length) {
         return reject(err);
       }
       return resolve(results[0]);
@@ -49,7 +50,7 @@ staffDB.GetContentByName = (resource) => {
       `select * from content where resource_id = (select resource_id from resources where resource_name = ?);`,
       resource,
       (error, result) => {
-        if (error) {
+        if (error || !result.length) {
           return reject(error);
         }
         return resolve(result);
