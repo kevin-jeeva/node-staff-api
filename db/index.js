@@ -33,6 +33,21 @@ staffDB.one = (id) => {
   });
 };
 
+staffDB.GetUserByEmail = (email) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select * from user where email = LOWER(?)`,
+      email,
+      (err, result) => {
+        if (err || !result.length) {
+          return reject(err);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 staffDB.GetContent = () => {
   return new Promise((resolve, reject) => {
     pool.query(`select * from content`, (error, results) => {

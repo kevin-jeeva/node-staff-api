@@ -21,4 +21,13 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.post("/:email", async (req, res, next) => {
+  try {
+    let result = await db.GetUserByEmail(req.params.email);
+    res.json(result);
+  } catch (error) {
+    res.status(500);
+  }
+});
+
 module.exports = router;
