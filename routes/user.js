@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
+const bcrypt = require("bcryptjs");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -21,12 +22,22 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/:email", async (req, res, next) => {
+router.post("/:email/:password", async (req, res, next) => {
   try {
     let result = await db.GetUserByEmail(req.params.email);
-    res.json(result);
+    plain = req.params.password;
+    hash = result[0].password;
+    bcrypt.compare(plain, hash, function (err, isMatch) {
+      if (err) {
+        res.status(500).send({ error: "Error in server :)" });
+      } else if (!isMatch) {
+        res.status(500).send({ error: "Invalid password Match" });
+      } else {
+        res.json(result);
+      }
+    });
   } catch (error) {
-    res.status(500);
+    res.status(500).send({ error: "Invalid Email Address" });
   }
 });
 
