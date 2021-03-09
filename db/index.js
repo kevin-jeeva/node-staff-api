@@ -74,4 +74,19 @@ staffDB.GetContentByName = (resource) => {
   });
 };
 
+staffDB.GetContentById = (id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select * from content where content_id = ?`,
+      id,
+      (error, result) => {
+        if (error || !result.length) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = staffDB;
