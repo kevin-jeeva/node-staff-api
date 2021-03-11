@@ -89,4 +89,18 @@ staffDB.GetContentById = (id) => {
   });
 };
 
+staffDB.GetVideos = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select media_path from media where media_path like '%.mp4'`,
+      (error, result) => {
+        if (error || !result.length) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = staffDB;
