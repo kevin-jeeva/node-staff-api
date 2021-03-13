@@ -1,15 +1,17 @@
 const express = require("express");
+const staffDB = require("../db");
 const router = express.Router();
 const db = require("../db");
 
-router.get("/resource", async (req, res, next) => {
+router.get("/resource/:staffId", async (req, res, next) => {
   try {
     const result = await db.GetResourceInProgress();
+    const staffId = req.params.staffId;
     var total = [];
     for (var key in result) {
       let resultName = result[key].resource_name;
       var contentIds = await db.GetContentIdsByName(resultName);
-      var userProgress = await db.GetProgressByResourceName(resultName);
+      var userProgress = await db.GetProgressByResourceName(resultName,staffId);
 
       //temp variables
       var contents = 0;
