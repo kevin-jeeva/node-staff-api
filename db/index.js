@@ -103,4 +103,42 @@ staffDB.GetVideos = () => {
   });
 };
 
+staffDB.GetResourceInProgress = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select resource_name from resources where resource_id IN (select resource_id from content group by resource_id);`,
+      (error, result) => {
+        if (error || !result.length) return reject(error);
+        return resolve(result);
+      }
+    );
+  });
+};
+
+staffDB.GetContentIdsByName = (resourceName) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select content_id from content where resource_id = (select resource_id from resources where resource_name = ?)`,
+      resourceName,
+      (error, result) => {
+        if (error || !result.length) return reject(error);
+        return resolve(result);
+      }
+    );
+  });
+};
+
+staffDB.GetProgressByResourceName = (resourceName, staffId = 18) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `SELECT * FROM progress where user_id = ? and content_id in (select content_id from content where resource_id = (select resource_id from resources where resource_name = ?))`,
+      [staffId, resourceName],
+      (error, result) => {
+        if (error) return reject(error);
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = staffDB;

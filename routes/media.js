@@ -19,18 +19,20 @@ MediaRouter.get("/videos", async (req, res, next) => {
   }
 });
 
-MediaRouter.get("/videos/:file", (req, res, next) => {
+MediaRouter.get("/videos/:file", async (req, res, next) => {
   try {
-    const filename = req.params.file;
-    res.sendFile(__dirname + "/downloads/videos/" + filename);
+    const m = req.params.file;
+    const results = await Getmedias(m);
+    console.log(results);
+    res.sendFile(results);
   } catch (error) {
     res.sendStatus(500);
   }
 });
 
 async function DownloadVideo(media) {
-  const url = "http://localhost/nbcc_staffwellness/includes/videos/" + media;
-  const imagePath = path.resolve(__dirname, "downloads/videos", media);
+  const url = "http://nbccstaffwellness.epizy.com/includes/videos/" + media;
+  const imagePath = path.resolve(__dirname, "/downloads/", media);
 
   const writer = fs.createWriteStream(imagePath);
 
@@ -47,5 +49,15 @@ async function DownloadVideo(media) {
     writer.on("error", reject);
   });
 }
+
+const Getmedias = (media_path) => {
+  return new Promise((resolve, reject) => {
+    try {
+      resolve(__dirname + "/downloads/" + media_path);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 module.exports = MediaRouter;
