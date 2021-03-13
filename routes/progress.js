@@ -8,6 +8,8 @@ router.get("/resource/:staffId", async (req, res, next) => {
     const result = await db.GetResourceInProgress();
     const staffId = req.params.staffId;
     var total = [];
+    var key = 0;
+
     for (var key in result) {
       let resultName = result[key].resource_name;
       var contentIds = await db.GetContentIdsByName(resultName);
@@ -30,7 +32,8 @@ router.get("/resource/:staffId", async (req, res, next) => {
 
       let progressResult = progressValue / contents / 100;
       console.log(progressResult);
-      total.push({ "resourceName": resultName, "progressVal": progressResult });
+      total.push({ "id": key, "resourceName": resultName, "progressVal": progressResult });
+      key += 1;
       //console.log(total);
     }
     res.json(total);
