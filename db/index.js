@@ -154,4 +154,17 @@ staffDB.GetSuggested = (staff_id) => {
   });
 };
 
+staffDB.GetMostViewed = (staff_id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select * from progress where user_id = ? and content_id != 0 order by views desc Limit 4`,
+      staff_id,
+      (error, result) => {
+        if (error || !result.length) return reject(error);
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = staffDB;

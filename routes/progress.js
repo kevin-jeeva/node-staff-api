@@ -35,7 +35,7 @@ router.get("/resource/:staffId", async (req, res, next) => {
 
       let progressResult = progressValue / contents / 100;
       console.log(progressResult);
-        total.push({ "id": key, "resourceName": resultName, "progressVal": progressResult });
+      total.push({ "id": key, "resourceName": resultName, "progressVal": progressResult });
       key += 1;
       //console.log(total);
     }
@@ -57,4 +57,22 @@ router.get("/resource/suggest/:userId", async (req, res, next) => {
   }
 });
 
+router.get("/most_viewed/:userId", async (req, res, next) => {
+  try {
+    const staff_id = req.params.userId;
+    const result = await db.GetMostViewed(staff_id);    
+    var mainResult = [];
+    for(var key in  result){
+        console.log(result[key].content_id);
+        var content = await db.GetContentById(result[key].content_id);
+        for(var contentKey in content){
+            mainResult.push({"content_id" : content[contentKey].content_id, "content_description":content[contentKey].content_description, "content_text" :content[contentKey].content_text, "content_title": content[contentKey].content_title });
+        }
+    }
+    res.json(mainResult);
+   
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
 module.exports = router;
