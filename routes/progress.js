@@ -13,7 +13,10 @@ router.get("/resource/:staffId", async (req, res, next) => {
     for (var key in result) {
       let resultName = result[key].resource_name;
       var contentIds = await db.GetContentIdsByName(resultName);
-      var userProgress = await db.GetProgressByResourceName(resultName,staffId);
+      var userProgress = await db.GetProgressByResourceName(
+        resultName,
+        staffId
+      );
 
       //temp variables
       var contents = 0;
@@ -32,13 +35,24 @@ router.get("/resource/:staffId", async (req, res, next) => {
 
       let progressResult = progressValue / contents / 100;
       console.log(progressResult);
-      total.push({ "id": key, "resourceName": resultName, "progressVal": progressResult });
+        total.push({ "id": key, "resourceName": resultName, "progressVal": progressResult });
       key += 1;
       //console.log(total);
     }
     res.json(total);
     // res.json(result);
   } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
+router.get("/resource/suggest/:userId", async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const result = await db.GetSuggested(userId);
+    res.json(result);
+  } catch (error) {
+    console.log(error);
     res.sendStatus(500);
   }
 });

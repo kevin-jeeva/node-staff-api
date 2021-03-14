@@ -141,4 +141,17 @@ staffDB.GetProgressByResourceName = (resourceName, staffId = 18) => {
   });
 };
 
+staffDB.GetSuggested = (staff_id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select content.content_title,content.content_id,content.content_description,date_format(content.date_created, '%m/%d/%y') as date_created from content inner join resources on content.resource_id = resources.resource_id where resources.resource_name NOT IN ('Exercise Video', 'Exercise Sound') and content.content_id  NOT in (select pg.content_id from progress pg where user_id = ?) order by rand() limit 2;`,
+      staff_id,
+      (error, result) => {
+        if (error || !result.length) return reject(error);
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = staffDB;
