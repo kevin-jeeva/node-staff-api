@@ -47,6 +47,20 @@ staffDB.GetUserByEmail = (email) => {
     );
   });
 };
+staffDB.GetPhoneById = (userId) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select user_phone_no from user_phone where user_id = ?`,
+      userId,
+      (err, result) => {
+        if (err || !result.length) {
+          return reject(err);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
 
 staffDB.GetContent = () => {
   return new Promise((resolve, reject) => {
