@@ -36,8 +36,22 @@ staffDB.one = (id) => {
 staffDB.GetUserByEmail = (email) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `select staff_id, user_name, email, admin, active, password from user where email = LOWER(?)`,
+      `select staff_id, user_name, first_name, last_name, email, admin, active, password from user where email = LOWER(?)`,
       email,
+      (err, result) => {
+        if (err || !result.length) {
+          return reject(err);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+staffDB.GetPhoneById = (userId) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select user_phone_no from user_phone where user_id = ?`,
+      userId,
       (err, result) => {
         if (err || !result.length) {
           return reject(err);
