@@ -51,4 +51,33 @@ router.post("/:email/:password", async (req, res, next) => {
   }
 });
 
+router.post("/changePassword/:email/:password", async (req, res, next) => {
+  try {
+    let result = await db.GetUserByEmail(req.params.email);
+    var email = req.params.email;
+    var password = req.params.password;
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      bcrypt.hash(password, salt, function (err, hash) {
+        const r = updatePass(email, hash);
+        res.status(200).send({ msg: "Password Updated" });
+      });
+    });
+  } catch (error) {
+    res.status(500).send({ error: "Invalid Email Address" });
+  }
+});
+
+const updatePass = (email, hash) => {
+  console.log(hash);
+  return new Promise(async (resolve, reject) => {
+    try {
+      let result = await db.UpdatePassword(email, hash);
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = router;

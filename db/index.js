@@ -183,4 +183,16 @@ staffDB.GetMostViewed = (staff_id) => {
   });
 };
 
+staffDB.UpdatePassword = (email, password) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `Update user set password = ? where email = ?`,
+      [password, email],
+      (error, result) => {
+        if (error) return reject(error);
+        return resolve(result);
+      }
+    );
+  });
+};
 module.exports = staffDB;
