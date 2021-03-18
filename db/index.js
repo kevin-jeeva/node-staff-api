@@ -47,8 +47,10 @@ staffDB.GetUserByEmail = (email) => {
     );
   });
 };
+
 staffDB.GetPhoneById = (userId) => {
   return new Promise((resolve, reject) => {
+    console.log(userId);
     pool.query(
       `select user_phone_no from user_phone where user_id = ?`,
       userId,

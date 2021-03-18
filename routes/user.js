@@ -22,6 +22,16 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.get("/phone/:id", async (req, res, next) => {
+  try {
+    const result = await db.GetPhoneById(req.params.id);
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
 router.post("/:email/:password", async (req, res, next) => {
   try {
     let result = await db.GetUserByEmail(req.params.email);
