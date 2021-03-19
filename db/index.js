@@ -4,8 +4,8 @@ const pool = mysql.createPool({
   password: "StaffNbcc001",
   user: "admin",
   database: "staff",
-  host: "staff-wellness-app.c97g5kpuab3n.us-east-1.rds.amazonaws.com",
-  port: "3311",
+  host: "nbcc-staff-wellness.cml7wvmpb0fw.us-east-1.rds.amazonaws.com",
+  port: "3306",
 });
 
 let staffDB = {};
