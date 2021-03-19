@@ -195,4 +195,18 @@ staffDB.UpdatePassword = (email, password) => {
     );
   });
 };
+
+staffDB.UpdatePhone = (id, phone) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `Update user_phone set user_phone_no = ? where user_id = ?`,
+      [phone, id],
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = staffDB;

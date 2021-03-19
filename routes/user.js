@@ -68,6 +68,17 @@ router.post("/changePassword/:email/:password", async (req, res, next) => {
   }
 });
 
+router.post("/changePhone/:id/:phone", async (req, res, next) => {
+  try {
+    const results = await db.UpdatePhone(req.params.id, req.params.phone);
+    console.log(results);
+    res.status(200).send({ msg: "phone  updated" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: "phone number not updated" });
+  }
+});
+
 const updatePass = (email, hash) => {
   console.log(hash);
   return new Promise(async (resolve, reject) => {
