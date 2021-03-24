@@ -209,4 +209,39 @@ staffDB.UpdatePhone = (id, phone) => {
   });
 };
 
+staffDB.GetResolution = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(`Select * from Resolution`, (error, result) => {
+      if (error) return reject(error);
+      return resolve(result);
+    });
+  });
+};
+
+staffDB.UserReadResolution = (id, resId) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `update Resolution set read_user = ? where res_id = ? `,
+      [id, resId],
+      (error, result) => {
+        if (error) return reject(error);
+        return resolve(result);
+      }
+    );
+  });
+};
+
+staffDB.GetResolutionById = (resid) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select * from Resolution where res_id = ?`,
+      resid,
+      (error, result) => {
+        if (error) return reject(error);
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = staffDB;
