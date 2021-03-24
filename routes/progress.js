@@ -122,7 +122,9 @@ router.post("/resolution/user/:id/res/:resId", async (req, res, next) => {
     for (var key in result) {
       read_user = result[key].read_user;
     }
-    read_user = read_user != null ? read_user + "" : req.params.id + "|";
+    if (read_user == null) console.log("here");
+    read_user =
+      read_user == null ? req.params.id + "|" : read_user + req.params.id + "|";
     const result_2 = await db.UserReadResolution(read_user, req.params.resId);
     res.status(201).send({ message: "user inserted into the table" });
   } catch (error) {
