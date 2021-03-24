@@ -91,4 +91,17 @@ const updatePass = (email, hash) => {
   });
 };
 
+router.post("/pushToken/:user/:token", async (req, res, next) => {
+  try {
+    const result = await db.InsertExpoPushToken(
+      req.params.user,
+      req.params.token
+    );
+    res.status(201).send({ message: "Token inserted" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error });
+  }
+});
+
 module.exports = router;

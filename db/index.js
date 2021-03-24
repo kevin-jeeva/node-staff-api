@@ -244,4 +244,17 @@ staffDB.GetResolutionById = (resid) => {
   });
 };
 
+staffDB.InsertExpoPushToken = (user, token) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `update user set expo_push_token = ? where staff_id = ?`,
+      [token, user],
+      (error, result) => {
+        if (error) reject(error);
+        resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = staffDB;
