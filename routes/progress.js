@@ -32,7 +32,7 @@ router.get("/resource/:staffId", async (req, res, next) => {
       for (var key3 in userProgress) {
         progressValue += userProgress[key3].progress_value;
       }
-      console.log(resultName + " " + progressValue);
+      //console.log(resultName + " " + progressValue);
 
       let progressResult = progressValue / contents / 100;
       console.log(progressResult);
@@ -44,6 +44,30 @@ router.get("/resource/:staffId", async (req, res, next) => {
       key += 1;
       //console.log(total);
     }
+
+    //Get the progress of resolution
+    const resolution = await db.GetResolution();
+    var countRes = 0;
+    var resProgVal = 0;
+    var resTot = 0;
+    for (var key4 in resolution) {
+      countRes += 1;
+      var read_users = resolution[key4]["read_user"];
+      if (read_users != null) {
+        var split_users = read_users.split("|");
+        var user_exists = split_users.includes(staffId.toString());
+        if (user_exists) {
+          resProgVal += 1;
+        }
+      }
+    }
+    resTot = resProgVal / countRes;
+    total.push({
+      id: "res123",
+      resourceName: "Resolution",
+      progressVal: resTot,
+    });
+
     res.json(total);
     // res.json(result);
   } catch (error) {
