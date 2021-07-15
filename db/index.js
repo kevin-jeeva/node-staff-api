@@ -1,10 +1,10 @@
 const mysql = require("mysql");
 const pool = mysql.createPool({
-  connectionLimit: 10,
-  password: "StaffNbcc001",
-  user: "admin",
-  database: "staff",
-  host: "nbcc-staff-wellness.cml7wvmpb0fw.us-east-1.rds.amazonaws.com",
+  connectionLimit: 5,
+  password: "gvXyXLgJiXsGV9DG5J6i",
+  user: "ukesuock61ki5xii",
+  database: "bbwdsodmha5qenqysheo",
+  host: "bbwdsodmha5qenqysheo-mysql.services.clever-cloud.com",
   port: "3306",
 });
 
